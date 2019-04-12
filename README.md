@@ -1,2 +1,3 @@
-# accessibility-check
-Accessibility error scanner
+# Accessibility check
+
+This is an accessibility error scanner.
