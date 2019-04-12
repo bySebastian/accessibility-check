@@ -1,0 +1,12 @@
+
+# Destination (build) folder
+dist/
+
+# Node modules
+node_modules/
+
+# System files
+.DS_STORE
+
+# (Error) log files
+yarn-error.log
