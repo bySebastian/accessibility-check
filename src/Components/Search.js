@@ -40,7 +40,14 @@ class Search extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <label htmlFor="websiteUrl">Page URL</label>
-                <input type="text" id="websiteUrl" name="websiteUrl" placeholder="https://www.google.com" defaultValue={ this.state.websiteUrl } onChange={ this.handleInputChange } />
+                <input 
+                    type="text" 
+                    id="websiteUrl" 
+                    name="websiteUrl" 
+                    placeholder="https://www.google.com" 
+                    defaultValue={ this.state.websiteUrl } 
+                    onChange={ this.handleInputChange }
+                />
                 <button type="sumbit">Search</button>
             </form>
             );
