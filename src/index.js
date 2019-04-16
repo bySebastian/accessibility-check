@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Search from './Components/Search';
+import Search from './Components/Search/Search';
 
 const Index = () => {
     return <div>

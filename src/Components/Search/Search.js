@@ -50,7 +50,7 @@ class Search extends Component {
                 />
                 <button type="sumbit">Search</button>
             </form>
-            );
+        );
     }
 
 }
