@@ -1,3 +1,5 @@
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const htmlPlugin = new HtmlWebPackPlugin({
@@ -6,10 +8,25 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 module.exports = {
+    devtool: 'source-map',
+    entry: [
+        'webpack-hot-middleware/client',
+        './client/reduxstagram'
+    ],
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js',
+        publicPath: '/dist/',
+    },
+    plugins: [
+        htmlPlugin,
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin()
+    ],
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.jsf$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
@@ -21,5 +38,4 @@ module.exports = {
             }
         ]
     },
-    plugins: [htmlPlugin]
-}
+;}
