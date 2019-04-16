@@ -7,6 +7,10 @@
   "author": "sebastian <sebastian@marlon.be>",
   "license": "MIT",
   "private": false,
+  "engines": {
+    "node": ">=10.x"
+  },
+  "engineStrict": true,
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production"
