@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as validationActions from '../../redux/actions/validationActions';
+import { bindActionCreators } from 'redux';
 
-class Search extends Component {
+class Search extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props); 
 
         this.state = {
-            websiteUrl: ''
+            siteUrl: ''
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,13 +18,13 @@ class Search extends Component {
     }
 
     handleInputChange(e) {
-        this.setState({ websiteUrl: e.target.value });
+        this.setState({ siteUrl: e.target.value });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        if (this.validateUrl(this.state.websiteUrl)) {
-            console.log('url', this.state.websiteUrl);
+        if (this.validateUrl(this.state.siteUrl)) {
+            this.props.actions.validateHtml(this.state.siteUrl);
         } else {
             console.log('No valid URL!')
         }
@@ -34,18 +38,18 @@ class Search extends Component {
           '(\\?[;&a-z\\d%_.~+=-]*)?'+                           // query string
           '(\\#[-a-z\\d_]*)?$','i');                            // fragment locator
         return !!pattern.test(url);
-      }
+    }
 
-    render () {
+    render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label htmlFor="websiteUrl">Page URL</label>
+            <form onSubmit={ this.handleSubmit }>
+                <label htmlFor="siteUrl">Page URL</label>
                 <input 
                     type="text" 
-                    id="websiteUrl" 
-                    name="websiteUrl" 
+                    id="siteUrl" 
+                    name="siteUrl" 
                     placeholder="https://www.google.com" 
-                    defaultValue={ this.state.websiteUrl } 
+                    defaultValue={ this.state.siteUrl } 
                     onChange={ this.handleInputChange }
                 />
                 <button type="sumbit">Search</button>
@@ -55,4 +59,23 @@ class Search extends Component {
 
 }
 
-export default Search;
+Search.propTypes = {
+    handleSubmit: PropTypes.func,
+    handleInputChange: PropTypes.func,
+    siteUrl: PropTypes.string,
+    actions: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state) {
+    return {
+        siteUrl:  state.siteUrl
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(validationActions, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

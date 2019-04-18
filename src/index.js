@@ -1,16 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './components/App';
+import configStore from './redux/configureStore';
+import configureStore from './redux/configureStore';
+import { Provider as ReduxProvider } from 'react-redux';
 
-import Search from './Components/Search/Search';
+const store = configureStore();
 
-const Index = () => {
-    return <div>
-        <h1>Accessibility Check</h1>
-        <p>Identify and fix common problems that affect your site's performance, accessibility, and user experience.</p>
-
-        <Search />
-
-    </div>;
-}
-
-ReactDOM.render(<Index />, document.getElementById('root'));
+render(
+    <ReduxProvider store={store}>
+        <Router>
+            <App />
+        </Router>
+    </ReduxProvider>,
+    document.getElementById('root')
+);

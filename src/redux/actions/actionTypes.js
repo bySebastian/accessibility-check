@@ -1,0 +1,1 @@
+export const VALIDATE_HTML = 'VALIDATE_HTML';
