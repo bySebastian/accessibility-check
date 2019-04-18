@@ -1,36 +1,37 @@
-const path = require('path');
 const webpack = require('webpack');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const htmlPlugin = new HtmlWebPackPlugin({
-    template: './src/index.html',
-    filename: './index.html'
-});
+process.env.NODE_ENV = 'development';
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     devtool: 'source-map',
-    entry: [
-        'webpack-hot-middleware/client',
-        './client/reduxstagram'
-    ],
+    entry: './src/index',
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js',
-        publicPath: '/dist/',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
+        filename: 'index.js',
+    },
+    devServer: {
+        stats: 'minimal',
+        overlay: true,
+        historyApiFallback: true,
+        disableHostCheck: true,
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        https: false
     },
     plugins: [
-        htmlPlugin,
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
+        new HtmlWebpackPlugin({
+            template: 'src/index.html',
+        })
     ],
     module: {
         rules: [
             {
-                test: /\.jsf$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader'
-                }
+                use: ['babel-loader']
             },
             {
                 test: /\.css$/,
@@ -38,4 +39,4 @@ module.exports = {
             }
         ]
     },
-;}
+};

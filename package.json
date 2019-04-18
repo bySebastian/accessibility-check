@@ -12,9 +12,10 @@
   },
   "engineStrict": true,
   "scripts": {
-    "start": "yarn build && yarn dist/app.js",
-    "dev-start": "yarn dist/app.js",
-    "build": "webpack --config ./webpack.config.js --progress --colors --mode development"
+    "start": "node server/server.js",
+    "build:webpack": "webpack --config webpack.config.js",
+    "build": "yarn run clean && yarn build:webpack",
+    "clean": "rimraf dist"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -38,7 +39,9 @@
     "react-hot-loader": "^4.8.4",
     "react-redux": "^7.0.2",
     "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
+    "redux-immutable-state-invariant": "^2.1.0",
     "rimraf": "^2.6.3",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-hot-middleware": "^2.24.3"
