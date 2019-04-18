@@ -10,8 +10,11 @@ class Search extends React.Component {
         super(props); 
 
         this.state = {
-            siteUrl: ''
+            siteUrl: '',
+            htmlValidationMessages: {}
         }
+
+        this.htmlValidationMessages = {};
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -24,7 +27,7 @@ class Search extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         if (this.validateUrl(this.state.siteUrl)) {
-            this.props.actions.validateHtml(this.state.siteUrl);
+            this.setState({ htmlValidationMessages:  this.props.actions.validateHtml(this.state.siteUrl) });
         } else {
             console.log('No valid URL!')
         }
@@ -42,18 +45,23 @@ class Search extends React.Component {
 
     render() {
         return (
-            <form onSubmit={ this.handleSubmit }>
-                <label htmlFor="siteUrl">Page URL</label>
-                <input 
-                    type="text" 
-                    id="siteUrl" 
-                    name="siteUrl" 
-                    placeholder="https://www.google.com" 
-                    defaultValue={ this.state.siteUrl } 
-                    onChange={ this.handleInputChange }
-                />
-                <button type="sumbit">Search</button>
-            </form>
+            <div>
+                <form onSubmit={ this.handleSubmit }>
+                    <label htmlFor="siteUrl">Page URL</label>
+                    <input 
+                        type="text" 
+                        id="siteUrl" 
+                        name="siteUrl" 
+                        placeholder="https://www.google.com" 
+                        defaultValue={ this.state.siteUrl } 
+                        onChange={ this.handleInputChange }
+                    />
+                    <button type="sumbit">Search</button>
+                </form>
+                { this.state.htmlValidationMessages.length > 0 && 
+                    this.state.htmlValidationMessages.map(message => { console.log('message', message) })
+                }
+            </div>
         );
     }
 

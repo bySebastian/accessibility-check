@@ -43,6 +43,9 @@
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
     "redux-immutable-state-invariant": "^2.1.0",
+    "redux-observable": "^1.1.0",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.3.0",
     "rimraf": "^2.6.3",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-hot-middleware": "^2.24.3"
