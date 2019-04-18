@@ -7,6 +7,7 @@ node_modules/
 
 # System files
 .DS_STORE
+.idea/
 
 # (Error) log files
 yarn-error.log
