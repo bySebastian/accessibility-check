@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as validationActions from '../../redux/actions/validationActions';
+import { validateHtml } from '../../redux/actions/validationActions';
 import { bindActionCreators } from 'redux';
+import SearchForm from './SearchForm';
+import Messages from '../validationMessages/Messages';
+import { VALIDATE_HTML } from '../../redux/actions/actionTypes';
 
 class Search extends React.Component {
 
@@ -10,31 +13,33 @@ class Search extends React.Component {
         super(props); 
 
         this.state = {
-            siteUrl: '',
-            htmlValidationMessages: {}
+            url: '',
+            error: null
         }
 
-        this.htmlValidationMessages = {};
-
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleInputChange(e) {
-        this.setState({ siteUrl: e.target.value });
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ 
+            [name]: value,
+            error: null
+        });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        if (this.validateUrl(this.state.siteUrl)) {
-            this.setState({ htmlValidationMessages:  this.props.actions.validateHtml(this.state.siteUrl) });
+        if (this.validateUrl(this.state.url)) {
+            this.props.validateHtml(this.state.url);
         } else {
-            console.log('No valid URL!')
+            this.setState({ error: 'No valid URL!' });
         }
     }
 
     validateUrl(url) {
-        var pattern = new RegExp('^(https?:\\/\\/)?'+           // protocol
+        const pattern = new RegExp('^(https?:\\/\\/)?'+           // protocol
           '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+   // domain name
           '((\\d{1,3}\\.){3}\\d{1,3}))'+                        // OR ip (v4) address
           '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+                    // port and path
@@ -46,20 +51,16 @@ class Search extends React.Component {
     render() {
         return (
             <div>
-                <form onSubmit={ this.handleSubmit }>
-                    <label htmlFor="siteUrl">Page URL</label>
-                    <input 
-                        type="text" 
-                        id="siteUrl" 
-                        name="siteUrl" 
-                        placeholder="https://www.google.com" 
-                        defaultValue={ this.state.siteUrl } 
-                        onChange={ this.handleInputChange }
+                <SearchForm 
+                    handleChange={ this.handleChange }
+                    handleSubmit={ this.handleSubmit }
+                    value={ this.state.url }
+                    error={ this.state.error }
+                />
+                { this.props.validationMessages.length > 0 &&
+                    <Messages 
+                        values={ this.props.validationMessages }
                     />
-                    <button type="sumbit">Search</button>
-                </form>
-                { this.state.htmlValidationMessages.length > 0 && 
-                    this.state.htmlValidationMessages.map(message => { console.log('message', message) })
                 }
             </div>
         );
@@ -69,21 +70,16 @@ class Search extends React.Component {
 
 Search.propTypes = {
     handleSubmit: PropTypes.func,
-    handleInputChange: PropTypes.func,
-    siteUrl: PropTypes.string,
-    actions: PropTypes.object.isRequired
+    handleChange: PropTypes.func,
+    url: PropTypes.string,
 };
 
-function mapStateToProps(state) {
-    return {
-        siteUrl:  state.siteUrl
-    }
-}
+const mapStateToProps = (state) => ({
+    validationMessages:  state.validators
+})
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(validationActions, dispatch)
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+    validateHtml: (value) => { dispatch(validateHtml(value)) }
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);
