@@ -1,13 +1,6 @@
 import * as types from './actionTypes';
 import { ajax } from 'jquery';
 
-export function getValidationMessages(data) {
-    return {
-        type: types.VALIDATE_HTML,
-        value: data
-    }
-}
-
 export function validateHtml(url) {
     return (dispatch) => {
         let xhr = null;
@@ -26,7 +19,7 @@ export function validateHtml(url) {
             async: true,
             dataType: 'json',
             complete: (data) => { xhr = null; },
-            success: (data) => { dispatch(getValidationMessages(data)) },
+            success: (data) => { dispatch({type: types.VALIDATE_HTML, value: data}) },
             error: (error) => { dispatch({type: types.VALIDATE_HTML, error}) },
         });
 
