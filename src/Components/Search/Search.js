@@ -5,7 +5,6 @@ import { validateHtml } from '../../redux/actions/validationActions';
 import { bindActionCreators } from 'redux';
 import SearchForm from './SearchForm';
 import Messages from '../validationMessages/Messages';
-import { VALIDATE_HTML } from '../../redux/actions/actionTypes';
 
 class Search extends React.Component {
 
